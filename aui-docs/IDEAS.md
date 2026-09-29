@@ -234,3 +234,56 @@ Worth deciding before the asset library grows.
   2. Back panels: generated from each device's inputs and outputs by default, with custom backs optional per skin?
   3. Global buses as a patchbay unit in the rack?
   4. Front and back: flip one device at a time, or turn the whole rack around?
+
+---
+
+## 2026-09-29 — Answers: glass vs analog (delegated), generated backs, console view, many ways to flip
+
+### Owner's words
+
+> 1. You Decide, what would be more unified?
+> 2. Yes
+> 3. Yes in a different "console-like" view under settings -  with ability to add shortcut in this session or all sessions.
+> 4. Different ways
+
+### Notes
+
+**1. Glass and analog: proposed rule, delegated to this session; the owner can overturn it.** Glass is the enclosure; analog is the instrument.
+
+- **The enclosure is glass.** This covers the app frame (sidebars, toolbars, transport bar), floating layers (popovers, menus, sheets) and the rack case around the devices. It is one frosted material with themeable tint and border. "Pink glass borders around the apps" lives here.
+- **The instrument is analog.** This covers device faceplates, rear panels, the console view, jacks, cables and knobs: neutral, opaque, matte panels with printed legends. They are opaque because data and controls sit on them, which keeps legibility (§9.8) simple.
+- **Glass inside a device appears only where real gear has glass or acrylic:** display windows, meter windows, cassette and tape windows, LED lenses. This is how glass enters the inner parts (the earlier answer 1: "If inner parts need glass then we should think of it") without breaking the analog look. It also matches the TAPEHAUS 424 prototype's dark window on a light panel.
+- **Why this is the more unified choice:**
+  - Every surface has exactly one material by role, so any extension or skin knows which one to use.
+  - Glass is never under dense data.
+  - The reduced-transparency mode only has to replace one material, with a solid fallback.
+- **A theme exposes two material families:** `glass.*` (tint, blur, opacity, border, highlight) and `panel.*` (surface, legend ink, screw/edge detail, wear level: none by default).
+
+**2. Back panels: settled.** Every device gets a generated neutral rear panel from the inputs and outputs it declares. A skin may supply a custom back. The generated back is the default for all 100+ extensions.
+
+**3. Global buses: settled, with more detail.**
+
+- The global buses and patchbay live in a separate console-like view under Settings, not in the rack itself.
+- Users can add a shortcut to that view in two scopes:
+  - **this session only:** stored with the project or session;
+  - **all sessions:** stored in user preferences.
+- aui's part in this is generic: a "pin shortcut" affordance with a scope choice (session / all sessions). Where the shortcut is stored is the app's concern (mazika, the engine UI).
+- This pin-with-scope pattern is probably reusable for any view, not only the console.
+
+**4. Flipping: several ways, all over one routing model.**
+
+- Flip a single device to its back.
+- Turn the whole rack around.
+- Open the console view (global buses and patchbay).
+- The connections list (the accessible text path).
+
+These are views of one connection graph in the engine, so a patch made in any of them appears in all of them. The flip transition is the only motion, and it respects `prefers-reduced-motion` (an instant swap).
+
+**Open questions put to the owner**
+
+1. Does "session" mean a DAW project/session (mazika's session), or an app launch?
+2. Does the console view show only global buses and the patchbay, or also every device's back in a compact list (a full routing overview)?
+3. Still open from earlier:
+   - replicas vs unbranded homages (AUI-020);
+   - skins in code only, or also as designer asset packs;
+   - the two-view DJ mixer as the first test case.
