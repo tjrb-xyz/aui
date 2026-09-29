@@ -344,3 +344,40 @@ These are views of one connection graph in the engine, so a patch made in any of
   1. Are packs data only (manifest + SVG/images + tokens), or may they include code (custom React faces)? Data-only is safer and simpler to validate; code allows more.
   2. How do users get packs: file import only, or an in-app pack browser?
   3. Editing: by hand in files for now, with an in-app skin editor later?
+
+---
+
+## 2026-09-29 — Wrapper VST beside the pack, first-party pack, text-editable, editor API?
+
+### Owner's words
+
+> it has a wrapper vst / next to it with the instrument modulation details. we as the developers are making the first pack. should be editable with text editor. should we have an editor api as part of aui
+
+### Notes
+
+- **Sound side:** a pack comes with, or sits next to, a wrapper VST (plugin) that carries the instrument's modulation and emulation details. This fits the split already noted:
+  - the skin pack is look only;
+  - the plugin is sound;
+  - the pack references the plugin by id.
+  
+  The engine hosts the plugin at the device's position in the chain. aui shows its state (available, bypassed, missing).
+- **First pack is first-party.** The team makes the first pack. That makes the team the pack author, so the earlier trademark note applies to this pack directly, even though it ships outside the binary. Naming it and describing its gear "in the style of" keeps the risk down.
+- **Text-editable format (proposal):**
+  - The manifest and tokens are JSON with a published JSON Schema (`"$schema": ...`), so any text editor with JSON support gets autocompletion, hover docs and error squiggles for free.
+  - Artwork is SVG where possible, which is text too. Bitmaps are allowed but are the only non-text part.
+  - Stable part ids name every skinnable piece (for example `knob.cap`, `knob.arc`, `panel.legend`), so a pack author can target parts by name.
+- **Editor API: recommendation is yes, but headless.**
+  - aui ships the pack tooling as a framework-free API, not a full editor app:
+    - `schema` (the JSON Schema);
+    - `validate(pack)` (plain-sentence errors, AUI-210);
+    - `load(pack)` / `apply(pack)` / `unapply()`;
+    - `diff(a, b)`;
+    - contrast check on the pack's tokens;
+    - a dev "live reload" that re-applies a pack when its files change.
+  - React adds an **inspect mode**: hover or click a part in the running UI to see its part id and the tokens that style it, which tells a text-editor author what to change.
+  - A visual skin editor can be built later on this same API: an app, or a mode in the playground.
+  - **Why one API:** the same validator then runs in CI, on import in the app, in the text editor (via the schema) and in any future visual editor. That gives one source of truth, and 100+ extensions cannot drift from it.
+- **Open questions put to the owner**
+  1. Does the pack *contain* the wrapper VST, or sit next to it and reference it by id? Referencing keeps packs text-only and lets one plugin serve many skins.
+  2. Which device is the first pack for? The two-view DJ mixer, or a synth like the Jupiter-style one in the tapedeck prototype?
+  3. Plugin format: VST3 only, or also AU/CLAP? This is mostly an audio-engine question, noted here for completeness.
