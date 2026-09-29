@@ -317,3 +317,30 @@ These are views of one connection graph in the engine, so a patch made in any of
   2. What should a compact device show: a few chosen key controls, only meters and status, or should the device author pick?
   3. Can you edit from the compact view (turn a key knob, bypass), or is it view-only?
   4. On desktop, all panes at once (list + routing + device)?
+
+---
+
+## 2026-09-29 — Replica homages live in external, editable skin packs
+
+### Owner's words
+
+> replica homages are not in the binary but an external editable pack of skins
+
+### Notes
+
+- **This answers the replicas vs homages question with a split:**
+  - aui itself (the package, and any app binary built on it) ships only neutral, unbranded skins. That keeps AUI-020 true for everything aui and its apps distribute.
+  - Replica homages of real gear live outside, in external skin packs that users can edit. This matches the "user-supplied skin packs" option noted earlier.
+- **Consequence: the skin pack is a public format.** aui must define it as data, and any pack aui loads must also follow the kit's other rules:
+  - **Manifest:** name, version, author, licence, target device model(s), which faces it skins (front / back / compact), and an optional sound filter reference.
+  - **Assets:** SVG and bitmaps, plus token overrides (`panel.*`, `glass.*` for windows, geometry).
+  - **Validation:** the schema refuses unknown keys and says why (AUI-116, AUI-210). The contrast check runs on the pack's tokens before it is applied (AUI-214).
+  - **Hard rule:** a skin never changes behaviour, ARIA or state words (AUI-029). A pack can only restyle the one DOM.
+- **Loading external packs under COOP/COEP (AUI-162, AUI-163).** Remote images are blocked unless same-origin. So packs are imported (a file or folder picked by the user) into app storage and served locally, for example from IndexedDB through `blob:` URLs. They are never hot-linked from the web.
+- **"Editable" implies:** packs are plain files a designer can open and change. A later in-app skin editor could live on top of the same format.
+- **Sound filters stay separate.** A pack can *reference* an emulation filter. The filter itself is engine extension code, installed and trusted separately, never executed from a skin pack.
+- **Remaining legal note (flag only).** Whoever makes and shares a branded pack carries its trademark risk. If the owner later runs an official pack gallery or marketplace, hosting branded packs there would bring that risk back.
+- **Open questions put to the owner**
+  1. Are packs data only (manifest + SVG/images + tokens), or may they include code (custom React faces)? Data-only is safer and simpler to validate; code allows more.
+  2. How do users get packs: file import only, or an in-app pack browser?
+  3. Editing: by hand in files for now, with an in-app skin editor later?
