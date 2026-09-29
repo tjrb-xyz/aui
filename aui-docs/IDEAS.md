@@ -171,3 +171,27 @@ Worth deciding before the asset library grows.
   - That device's own output only, such as the mixer view's master out.
   - Or the whole app's master.
   - And, whichever it is: is the filter on or off by default when the skin is chosen?
+
+---
+
+## 2026-09-29 — Filter placement, a global bus and a bus view
+
+### Owner's words
+
+> The filter, sits right after, where the device sits in the chain. Thus we need a global bus, as well as a global bus view, to show how the busses are all flowing
+
+### Notes
+
+- **Placement is settled by this answer.** A skin's sound filter is inserted immediately after its device, at that device's position in the signal chain. It does not go on the app master. Example: mixer skin → DJM-style filter right after the mixer, before whatever follows it.
+- **The global bus is engine scope.** It is a single routing model for all devices, buses, inserts (including skin filters) and outputs, owned by audio-engine. aui renders it and proposes edits to it. It never processes audio (AUI-115).
+- **The global bus view is new aui scope.** It is a view showing how all buses flow. It relates to REQUIREMENTS Q-17, which leaves a patchbay part open, with the default "the engine's UI builds it from aui's parts; aui adds a part when two consumers need it". mazika and audio-engine's UI would both want this view, which meets that bar.
+  - Worth proposing the bus view as a first-class aui part, built from primitives: node, port, connection, insert slot, meter-on-wire.
+- **A skin filter should be visible in the bus view** as its own node or insert right after the device, marked as a coloured (emulated) stage, with its bypass.
+- **Open questions put to the owner**
+  1. What should the bus view look like?
+     - a node graph, where boxes and wires can go anywhere;
+     - a left-to-right signal-flow diagram;
+     - a mixer-style strip view with sends and returns;
+     - or several of these as switchable views of the same model.
+  2. Is it view-only, or can you reroute from it (drag wires, reorder inserts, bypass)?
+  3. Should it show live signal: levels on wires, clip markers, latency per stage?
