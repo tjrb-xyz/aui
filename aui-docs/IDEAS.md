@@ -124,3 +124,26 @@ Worth deciding before the asset library grows.
 2. Skin authoring: code (React) only, or asset packs (SVG/bitmap + layout data) that designers can make without code?
 3. View switch and sound switch: linked by default (pick DJM view → DJM sound), or always independent?
 4. First proving case: the two-view DJ mixer?
+
+**Cross-check with `REQUIREMENTS.md` rev 1** (branch `claude/happy-pasteur-7y8qeh`, commit `3731dee`):
+
+- **Conflict: gear replicas vs AUI-020 (settled).** AUI-020 is settled from the owner's own earlier words in mazika's brief §1a. It rules out any third party's product name, logo, panel graphics or trade dress in aui's names, themes or components. The requirements also speak of "ten homage skins". Today's "replicas of real gear" goes further. The owner needs to choose one of these:
+  - homages: evoke the character (layout, colour family, knob feel) with no names, logos or copied panels;
+  - replicas: which reopens AUI-020.
+- **Tension: glass vs the colour pipeline.**
+  - The requirements fix colours as precomputed opaque `#RRGGBB`, with no runtime `color-mix()` (AUI-040, AUI-215, AUI-288).
+  - Glass needs alpha colours and `backdrop-filter`.
+  - `backdrop-filter` also costs GPU time in dense views and in older WKWebView hosts (AUI-073 already guards those hosts).
+  - Likely fix: allow `#RRGGBBAA` tokens and a small set of glass material tokens (blur, tint, opacity, border). Include a solid fallback, used by the reduced-transparency mode, older hosts and the contrast check, which measures against the worst backdrop.
+- **Tension: faceplate skins vs Q-11 (default: no bitmap film-strip controls in the first release).** Convincing gear homages usually want image assets. Q-11 may need revisiting, or skins stay SVG-plus-tokens at first.
+- **Fits as written:**
+  - skins and views by others (AUI-024, settled);
+  - themes as data with light and dark (AUI-026);
+  - one DOM per theme, so skins cannot change behaviour (AUI-029, AUI-182);
+  - aui never touches audio (AUI-115), so sound emulation lives in the engine and aui only shows a capability toggle.
+- **New scope not yet in the requirements:**
+  - the frame vs faceplate split;
+  - frame customisation such as tinted glass borders;
+  - device model vs multiple views;
+  - sound character linked to a skin;
+  - public SDK primitives: primitives as declared-stable exports, extending AUI-122.
