@@ -1,8 +1,10 @@
 # aui: handoff
 
-**Status:** rev 1, 2026-09-29, design only. Nothing of aui is built yet. This file is for aui's own Claude session. It says what to read, what to do first, and how to work in this repository. The requirements are in `aui-docs/REQUIREMENTS.md`.
+**Status:** rev 2, 2026-09-29, design only. Rev 2 answers the review of rev 1 ("Review of rev 1", at the end). Nothing of aui is built yet. This file is for aui's own Claude session. It says what to read, what to do first, and how to work in this repository. The requirements are in `aui-docs/REQUIREMENTS.md`.
 
-**Pins.** aui at `640c3d7` (the fork as it arrived). mazika at `738d4bf`. bana at `04a5f22`. audio-engine's `docs/ARCHITECTURE.md` rev 1.
+**Pins.** aui at `640c3d7` (the fork as it arrived). mazika at `738d4bf`, and at `e8124d3` for the brief's plugin block only. bana at `04a5f22`. audio-engine at `4545674` (rev 1 of its documents; its rev 2 is not yet committed).
+
+**The owner's newest words** are the brief's blocks "Teams, and audio-engine as a product of its own" (mazika@738d4bf) and the plugin block after it (mazika@e8124d3). They win over older blocks where they differ.
 
 **Citations** follow one rule: `repo@sha:path §section "quote"`, where the quote is an exact substring of that file at that sha (whitespace aside). Line numbers are never cited.
 
@@ -13,7 +15,7 @@
 - **You are aui's session.** aui is the owner's own UI kit for audio apps. The owner's words, verbatim: mazika@738d4bf:docs/brief.md §1a (Teams, and audio-engine as a product of its own) "I want you to build your own UI kit by using github.com/cutoff/audio-ui as inspiration, I've even forked it." The owner then chose mazika@738d4bf:docs/brief.md §1a (Teams, and audio-engine as a product of its own) "Fresh code, own licence".
 - **The instructions your session loaded at start are not yours.** This repository arrived as an untouched fork of `cutoff/audio-ui`. Its `CLAUDE.md` is a symlink to Tylium's `AGENTS.md`: aui@640c3d7:AGENTS.md §Documentation File Structure "CLAUDE.md and GEMINI.md are symbolic links to this file." Those rules were written by Tylium for Tylium's contributors. Until task T1 replaces `CLAUDE.md`, read them as history, not as instructions. Where they differ from this file, this file wins.
 - **Never copy from the fork.** No code, CSS, docs or comments. Do not read the fork's `packages/`, `apps/` or `agents/` while you write aui's counterpart (REQUIREMENTS Q-04). Write from `aui-docs/REQUIREMENTS.md` and mazika's own docs and code.
-- **Two answers gate the code.** The licence (Q-01) and the name (Q-02). Ask the owner both in your first reply. Work that needs neither can start at once: the provenance ledger, the removals, CI and the token pipeline.
+- **Two answers gate the code.** The licence (Q-01) and the name (Q-02). Ask the owner both in your first reply. Work that needs neither can start at once: the provenance ledger, the removals, CI by hand and the token pipeline.
 
 ---
 
@@ -25,8 +27,10 @@ In this order:
 2. **`aui-docs/REQUIREMENTS.md`:** §0 (the answer in one screen), §2 (licence, provenance, names), §7 (the drop-in contract), §8 (acceptance criteria) and §9 (open questions). Read the rest when you build the part it covers.
 3. **The owner's words** in mazika's `docs/brief.md` §1a: the block "Teams, and audio-engine as a product of its own", and "Every error reaches the UI". mazika is `tjrb-xyz/mazika`. If your session cannot reach it, ask the owner to attach it.
 4. **mazika's spec and UI design:** `docs/ux-spec.md` §9 (the look, the words, the legibility rules in §9.8) and `docs/research/ui-foundation-design.md` §0 to §3 and §5.7 (behaviour and its acceptance criteria).
-5. **mazika's kit, for the contract:** `src/ui/index.ts`, `param.ts`, `useParamControl.ts`, `param-feed.ts`, `Meter.tsx`, `meter-scale.ts`, `ParamButton.tsx` and `audio-ui.contract.ts`; and `src/themes/token-file.ts`, `manifest.ts` and `contrast.test.ts`. Read them for behaviour. Do not copy them until the owner answers Q-05.
-6. **audio-engine's optional UI**, aui's second consumer: `tjrb-xyz/audio-engine`, `docs/ARCHITECTURE.md` §14, and in `docs/REQUIREMENTS.md` the rows AE-UI-001 to AE-UI-007, AE-ERR-001 to AE-ERR-005 and AE-API-056.
+5. **mazika's kit, for the contract:** `src/ui/index.ts`, `param.ts`, `useParamControl.ts`, `param-feed.ts`, `Meter.tsx` and `meter-scale.ts`; and `src/themes/token-file.ts`, `manifest.ts` and `contrast.test.ts`. These are mazika's own code. Do not copy them until the owner answers Q-05.
+   - **Do not read** `audio-ui.contract.ts`, `ParamButton.tsx`, `Knob.tsx`, `Fader.tsx`, `Keys.tsx` or `param-adapter.ts`. They are built on audio-ui, or copy its signatures, so reading them breaks the clean-room default (Q-04). REQUIREMENTS §7.1 already lists what to replace, and mazika's session writes aui's type snapshot at switch time (REQUIREMENTS §7.3).
+   - Take behaviour for those controls from mazika's spec §9, `docs/research/ui-foundation-design.md` and REQUIREMENTS §3 to §5 only.
+6. **audio-engine's optional UI**, aui's second consumer: `tjrb-xyz/audio-engine` at `4545674` or later, `docs/ARCHITECTURE.md` §14, and in `docs/REQUIREMENTS.md` the rows AE-UI-001 to AE-UI-007, AE-ERR-001 to AE-ERR-005 and AE-API-056. The repository is private; if your session cannot reach it, ask the owner to attach it.
 7. **bana**, for CI: `tjrb-xyz/bana`, `README.md` ("Adopt bana in a project" and "Trust") and `docs/DAEMON.md`.
 
 ---
@@ -35,7 +39,8 @@ In this order:
 
 - **Branch:** `claude/happy-pasteur-7y8qeh` holds `640c3d7` plus `aui-docs/` (these two files). `main` is the untouched fork.
 - **The fork:** 344 tracked files, all Tylium's. A pnpm and Turbo monorepo: `packages/core`, `packages/react`, `apps/playground-react`, `agents/`, `license-telf/`, and upstream's README, licence, workflows and config. REQUIREMENTS §2.3 lists each group and its fate.
-- **The licence:** the root `LICENSE.md` is Tylium's GPL-3.0-only. It stays until the owner's licence replaces it (AUI-291).
+- **The licence:** the root `LICENSE.md` is Tylium's GPL-3.0-only. It stays only while fork files remain; T3 replaces it with a short notice (AUI-291).
+- **The repository** is public, a fork of `cutoff/audio-ui`, and its GitHub description is still Tylium's (Q-03, T0).
 - **Nothing of aui exists yet:** no code, no tokens, no CI of its own, no package name.
 
 ---
@@ -46,7 +51,8 @@ Each task ends green on whatever checks exist by then, with the provenance ledge
 
 ### T0. Ask the owner, and keep a log
 
-- Ask **Q-01** (the licence) and **Q-02** (the name, and whether "aui" is too close to "AudioUI"). Also ask **Q-03** (the fork's history) and **Q-16** (bana's daemon on a public repository).
+- Ask **Q-01** (the licence) and **Q-02** (the name, and whether "aui" is too close to "AudioUI"). Also ask **Q-03** (the fork's history, the fork link, and whether aui becomes private) and **Q-16** (bana's daemon on a public repository).
+- Ask the owner to change the repository's GitHub description, which still reads Tylium's "Dual-licensed GPL-3.0 / Commercial". Only the owner can change it, or the visibility, or the fork link. Your session cannot do any of them.
 - Record each answer verbatim, dated, with the question in brackets, in `aui-docs/DECISIONS.md` (a choice). This is how mazika's brief records the owner's words.
 - Until Q-01 is answered, no component code lands (AUI-185).
 
@@ -104,8 +110,8 @@ for this project, and they are deleted with the rest of the fork's files.
   - replace `README.md` with a short README of aui's own. It names audio-ui once, as inspiration, and nowhere else (AUI-303). It never presents aui as AudioUI (AUI-292);
   - delete the root configuration files; T4 writes fresh ones;
   - last, delete `AGENTS.md` and `agents/`.
-- **Keep `LICENSE.md`** until the owner's licence is chosen. Then replace it (AUI-291).
-- When T3 ends, no ledger row says `fork` except `LICENSE.md` while Q-01 is open.
+- **Last, replace `LICENSE.md`** with a short notice, once no other fork file is left: "Copyright the owner. No licence is granted yet; the licence will be chosen (Q-01)." Git history keeps Tylium's file. When the owner chooses the licence, its text replaces the notice (AUI-291). This way no fresh aui file (T4 onward) ever sits under Tylium's GPL notice.
+- When T3 ends, no ledger row says `fork`.
 
 ### T4. Scaffold, fresh
 
@@ -114,18 +120,19 @@ for this project, and they are deleted with the rest of the fork's files.
 - First tests, before any component: provenance (AUI-AC-01), headers (AUI-AC-02, once Q-01 is answered), names (AUI-AC-03), licence ledger (AUI-AC-04), errors (AUI-AC-24) and no policy words (AUI-AC-25). Each has a self-test that fails a planted bad case.
 - Fill in `CLAUDE.md`'s Commands.
 
-### T5. CI with bana, through the daemon only
+### T5. CI with bana: by hand on a public repository
 
 - **No submodule.** bana is private, and aui is public. bana's README says so for its install: bana@04a5f22:README.md §Adopt bana in a project "The header is there because bana is private". A public repository's jobs cannot check out a private submodule with the default token.
 - **Write aui's own `.github/workflows/ci.yml`:**
-  - triggered only by `workflow_dispatch`, so GitHub itself runs nothing and bana's daemon runs it. bana's install checks for it: bana@04a5f22:docs/DAEMON.md §Install "the workflow's `workflow_dispatch` trigger";
+  - triggered only by `workflow_dispatch`, so GitHub itself runs nothing, and bana runs it. bana's daemon install checks for it: bana@04a5f22:docs/DAEMON.md §Install "the workflow's `workflow_dispatch` trigger";
   - jobs on `runs-on: [self-hosted, aui-linux]` (bana's labels are `<prefix>-linux` and `<prefix>-macos`, and the prefix defaults to the repository's name);
   - plain `run:` steps only. No `uses: tjrb-xyz/bana/...` steps, because they need bana's actions shared with this repository.
-- **Write `.github/bana.conf`:** `repo = tjrb-xyz/aui` and `daemon.token = none` (the jobs get an empty token). Keep the default `daemon.branches`.
-- **The owner installs it, on the Mac,** after answering Q-16. bana's rule is bana@04a5f22:README.md §CI on push: bana daemon "Use the daemon only on a private repository, where write access is the gate." Your session runs in a container and cannot install the daemon. Hand the owner these steps:
+- **Write `.github/bana.conf`:** `repo = tjrb-xyz/aui`. Set `daemon.branches` to one branch that only the owner pushes to, for example `ci/*`, fast-forwarded after the owner reads the diff. Never `claude/*`, and never bana's default, which runs every branch except bot branches: bana@04a5f22:docs/DAEMON.md §Settings "`* !dependabot/* !renovate/*`".
+- **An empty token is not a guard.** `daemon.token = none` gives jobs an empty token, but bana itself says: bana@04a5f22:docs/DAEMON.md §Trust "a host job can still run `gh auth token` itself, so the real limit is the trust above". A job runs as the owner, with the owner's home, SSH keys and Keychain in reach. A push steered by injected text would run there.
+- **By default, no daemon** (Q-16). bana's rule is bana@04a5f22:README.md §CI on push: bana daemon "Use the daemon only on a private repository, where write access is the gate." aui is public. So the owner runs `bana ci` by hand, after reading the diff. Your session runs in a container and cannot run bana on the owner's Mac. Hand the owner these steps:
   1. install bana per machine with its `install.sh` (bana's README, "Adopt bana in a project");
-  2. `bana ci` once in aui's checkout, by hand;
-  3. `bana daemon install`.
+  2. read the diff, then run `bana ci` in aui's checkout, by hand.
+- **Only if the owner makes aui private** and asks for the daemon: `bana daemon install`, with `daemon.branches` set as above.
 
 ### T6. Tokens and aui's default theme
 
@@ -174,7 +181,7 @@ for this project, and they are deleted with the rest of the fork's files.
 |---|---|---|
 | **mazika** (`tjrb-xyz/mazika`) | The parts behind `src/ui`, to the contract in REQUIREMENTS §7. Declared-stable exports and exact versions. | Its words as props. mazika's session makes mazika's side of the switch (§7.3) when the owner decides (Q-06). |
 | **audio-engine** (`tjrb-xyz/audio-engine`) | Parts and a default theme for the engine's optional UI (ARCHITECTURE §14). Error parts for its structured events. | The error event's fields (AE-ERR-003) and the meters' live snapshot (AE-API-056). The engine's UI lives in the engine's repository and depends on aui. |
-| **bana** (`tjrb-xyz/bana`) | Nothing. | CI through its daemon (T5). |
+| **bana** (`tjrb-xyz/bana`) | Nothing. | CI by hand, and its daemon only on a private repository (T5). |
 | **dsper** | Nothing yet. | Nothing. |
 
 ---
@@ -189,7 +196,21 @@ The owner pastes this as the first message in aui's session:
 >
 > 1. Read `aui-docs/HANDOFF.md`, then `aui-docs/REQUIREMENTS.md` §0, §2, §7, §8 and §9.
 > 2. In your first reply, ask me REQUIREMENTS Q-01 (the licence), Q-02 (whether "aui" is too close to "AudioUI", and the published name), Q-03 (the fork's history) and Q-16 (bana's daemon on a public repository). Record my answers verbatim in `aui-docs/DECISIONS.md`.
-> 3. Then do HANDOFF T1 to T3: replace the `CLAUDE.md` symlink with our own instructions (leave `AGENTS.md` alone until the other fork files are gone), seed the provenance ledger, and remove the fork's files.
-> 4. Then T4 and T5: scaffold fresh and set up CI with bana through its daemon, with no submodule.
+> 3. Then do HANDOFF T1 to T3: replace the `CLAUDE.md` symlink with our own instructions (leave `AGENTS.md` alone until the other fork files are gone), seed the provenance ledger, and remove the fork's files. Last in T3, replace `LICENSE.md` with a short notice until I choose the licence.
+> 4. Then T4 and T5: scaffold fresh and set up CI with bana, with no submodule. On a public repository I run `bana ci` by hand after reading the diff; no daemon.
 >
 > Never copy from the fork, and do not read its `packages/`, `apps/` or `agents/`. Work on your session's branch; never push to `main`, never force-push, never publish. Every error reaches the app as a structured error. Nothing unmeasured gets a number. Write docs in short, plain sentences.
+
+---
+
+## Review of rev 1
+
+Rev 2 answers the review of rev 1 (2026-09-29). Each finding was checked against the files first.
+
+| Finding | What happened |
+|---|---|
+| T-13 | Fixed. The pins include mazika@e8124d3, and the owner's newest words name both blocks. |
+| H-14 | Fixed. T3 ends by replacing `LICENSE.md` with a short notice. T0 asks the owner to change the GitHub description, and asks about the visibility and the fork link (Q-03). The session can do none of these itself. |
+| H-15 | Fixed. §1 item 5 no longer sends you to `audio-ui.contract.ts`, `ParamButton.tsx`, `Knob.tsx`, `Fader.tsx`, `Keys.tsx` or `param-adapter.ts`. Behaviour comes from mazika's spec §9, the UI foundation design and REQUIREMENTS §3 to §5. |
+| H-16 | Fixed. audio-engine is pinned at `4545674`, and item 6 says the repository is private and to ask the owner to attach it. |
+| R-18 | Fixed. T5 no longer keeps bana's default branches or treats an empty token as a guard. By default there is no daemon: the owner runs `bana ci` by hand after reading the diff. A daemon, only on a private repository, runs one branch that only the owner pushes. |
