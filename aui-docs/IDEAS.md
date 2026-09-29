@@ -71,3 +71,56 @@ This needs to be squared with the requirements drafted in `REQUIREMENTS.md` on t
 2. Skins: does "mimic different elements" mean hardware look-alikes (like TAPEHAUS 424), bitmap and filmstrip art, whole-app looks, or all three?
 3. Extensions: do third parties write React components against the kit, or declare UI as data (a manifest) that the engine renders?
 4. Light mode: first-class alongside dark, or dark-first?
+
+---
+
+## 2026-09-29 — Answers: glass inside, gear replicas, SDK primitives, device views with sound
+
+### Owner's words
+
+> 1. If inner parts need glass then we should think of it.
+> 2. Exactly, replicas of real gear such as the 808, JUPITER 8, NORD,ACCESS VIRUS, MPC, SP202, DJM, CDJs,  KORG, etc..., it should just be the inner part of the look. The outer should always look unbiased, yet it should be customizable. Say I want to put pink glass borders around the apps, I need to be possible.
+> 3. Yes, we will write React on top of it. But also it will be used as an SDK, so it needs to have primitives.
+> 4. Yes, either light mode, or toggle between 2 views - Say 2 different device views support this option - Say for DJ Mixer - Allen & Heath Xone 96 and DJM A9 support similar features in different types of view. However, they also introduce  a certain sound, so obviously with a skin, we should also be able to enable a certain sound emulation - That would be extension emulation code - Depending if the backend support's it for this option.
+
+### Notes
+
+**Two layers of look, named for clarity** (working names):
+
+- **Frame:** the outer app chrome (shell, sidebars, toolbars, panel borders). It is always neutral and unbiased, but fully customisable through theme data. "Pink glass borders around the apps" is a frame theme setting: border tint, glass blur and opacity, radius.
+- **Faceplate:** the inner device surface, where the gear replica lives (808, Jupiter-8, Nord, Virus, MPC, SP-202, DJM, CDJ, Korg...). A skin only ever touches the faceplate.
+
+**Glass inside.** Glass is not banned from faceplates. It is opt-in per skin and held to the same legibility rules (§9.8) and reduced-transparency mode as the frame.
+
+**SDK means two tiers:**
+
+- **Primitives:** knob, fader, button, LED, meter, jog wheel, pad, screen or display, segment counter, keys, jack, panel, label and screw, plus glass and surface materials. These are what skin and extension authors compose.
+- **Composed components:** mixer channel, transport, deck and so on, built from the primitives. React teams use either tier.
+
+**Device model vs device view** (the DJ mixer example):
+
+- A *device model* is behaviour and parameters: channels, EQ, filters, crossfader, sends.
+- A *view* is a faceplate layout plus a skin bound to that model. "Xone 96 style" and "DJM-A9 style" are two views of one mixer model.
+- A view declares which parameters it shows. Parameters it lacks stay reachable, for example through a generic panel, so switching views never loses state.
+- Light and dark is the same idea one level up: a frame theme toggle.
+
+**Sound follows skin (optionally):**
+
+- A skin or view can reference a *sound character*: an emulation extension such as "Xone-style filter" or "DJM-style EQ curves".
+- aui does no DSP. It asks the backend whether that emulation is available (a capability query to audio-engine or the host) and shows the toggle: enabled, disabled with a reason, or hidden.
+- The look must work without the sound, and the sound without the look.
+
+**Flag: brand names and trade dress.** Replicas named and styled as Roland, Akai, Pioneer DJ, Allen & Heath, Korg, Clavia, Access and so on can raise trademark and trade-dress issues once distributed. This is the same spirit as keeping Cutoff and Tylium names out of aui. Options:
+
+- Unbranded "in the style of" skins with generic names.
+- Keeping brand assets in private or user-supplied skin packs.
+- Licensing.
+
+Worth deciding before the asset library grows.
+
+**Open questions put to the owner**
+
+1. Replicas: branded (names, logos) or unbranded homages?
+2. Skin authoring: code (React) only, or asset packs (SVG/bitmap + layout data) that designers can make without code?
+3. View switch and sound switch: linked by default (pick DJM view → DJM sound), or always independent?
+4. First proving case: the two-view DJ mixer?
