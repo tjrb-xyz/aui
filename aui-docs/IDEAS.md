@@ -147,3 +147,27 @@ Worth deciding before the asset library grows.
   - device model vs multiple views;
   - sound character linked to a skin;
   - public SDK primitives: primitives as declared-stable exports, extending AUI-122.
+
+---
+
+## 2026-09-29 — A skin's sound as a filter on the output
+
+### Owner's words
+
+> A skin might enable a custom sound as a "filter" on the output
+
+### Notes
+
+- This partly answers the earlier question 3 (does a view's sound follow its look?): a skin *may* bring a sound. The skin supplies it as a processing stage on the output, not as changes to the controls' behaviour.
+- In engine terms this is a "character" insert on an output bus, hosted by audio-engine. aui still does no audio work (AUI-115). A skin's manifest can name the insert it wants. The engine reports whether it can run it, and aui shows:
+  - on/off (bypass) for A/B listening;
+  - greyed out with a reason when the backend lacks it;
+  - nothing when the skin brings no sound.
+- The look must never depend on the sound. Turning the filter off keeps the skin, and turning the skin off removes its filter.
+- Possible UI needs:
+  - a visible marker that the output is being coloured, so no one mistakes it for the dry signal;
+  - the insert's latency and CPU cost, if the engine reports them.
+- Open: which output does the filter sit on?
+  - That device's own output only, such as the mixer view's master out.
+  - Or the whole app's master.
+  - And, whichever it is: is the filter on or off by default when the skin is chosen?
