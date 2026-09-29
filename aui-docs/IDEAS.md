@@ -195,3 +195,42 @@ Worth deciding before the asset library grows.
      - or several of these as switchable views of the same model.
   2. Is it view-only, or can you reroute from it (drag wires, reorder inserts, bypass)?
   3. Should it show live signal: levels on wires, clip markers, latency per stage?
+
+---
+
+## 2026-09-29 — Neutral analog look; routing on back panels with patch cables
+
+### Owner's words
+
+> i want it to look as close as possible to something neutral and analog where possible. for routing we should use back consoles and wire patches between the different parts
+
+### Notes
+
+- **Overall direction: neutral and analog where possible.** Everyday physical studio gear with no brand character: plain panels, printed legends, real-looking jacks and knobs, and restrained colour.
+- This sits alongside the earlier "liquid glass" direction. One reading: glass for the frame (app chrome, floating layers) and neutral analog for devices and routing. This needs the owner's confirmation.
+- **Routing view = the back of the gear.**
+  - Devices flip or turn to show a rear console with input and output jacks.
+  - The user patches cables between them, like the back of a studio rack. The best-known software examples are rear-rack views with patch cables.
+  - This view is the "global bus view" from the previous entry.
+  - Global buses could appear as a neutral patchbay unit: rows of jacks, normalled pairs, and bus sends and returns.
+  - Skin filters appear as their own small unit or insert right after their device (see the placement entry above).
+- **New primitives this implies:**
+  - jack/socket (input, output, stereo pair, with a type: audio, MIDI, CV/modulation, clock);
+  - cable (curved sag, colour, highlight on hover);
+  - rear panel (a grid of jacks with printed labels);
+  - patchbay (rows of jacks with normalling).
+- **No animation beyond the essentials.** This follows the earlier "not as animated" direction: cables are drawn as static curves with no wobble physics. At most the flip transition animates, and only if `prefers-reduced-motion` allows it.
+- **Skins and back panels:**
+  - either each skin also defines its rear panel;
+  - or every device gets a generic neutral back generated from its declared inputs and outputs.
+  - The second scales far better to 100+ extensions. It could be the default, with custom backs optional.
+- **Accessibility (§9.8) and scale:**
+  - Dragging cables needs a keyboard and screen-reader path: pick a source jack, then a destination, and every connection is readable as text ("Mixer out L → Tape in 1").
+  - A list view of all connections doubles as that path.
+  - Cable clutter needs controls: show all, show only the selected device's cables, or fade the others.
+  - Many SVG cables need a performance check.
+- **Open questions put to the owner**
+  1. Glass and analog: glass for the frame, analog for devices and back panels?
+  2. Back panels: generated from each device's inputs and outputs by default, with custom backs optional per skin?
+  3. Global buses as a patchbay unit in the rack?
+  4. Front and back: flip one device at a time, or turn the whole rack around?
