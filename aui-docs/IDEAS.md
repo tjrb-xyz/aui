@@ -469,3 +469,35 @@ So a pack can *suggest* a view, but the user picks it. aui's pack format should 
 2. Pro Tools: needed early, or fine to add later?
 3. Linux: needed for the plugins, or macOS and Windows first?
 4. Name for the first pack. It needs its own name: not TAPEHAUS 424, and no model numbers.
+
+---
+
+## 2026-09-30 — The VSTs are instruments
+
+### Owner's words
+
+> VSTs are more like drum machines and synths
+
+### Notes
+
+- **Correction to the first-device choice above.** The plugin beside a pack is an *instrument* (drum machine, synth), not an effect such as tape character. The tape machine stays as mazika's built-in main view (it can still take a skin) but is not the first *pack*.
+- **Revised first device: the drum machine**, an instrument plugin plus its pack. The owner delegated this; they can overturn it.
+  - **It is already in mazika's plan:** mazika@36bde22:docs/brief.md "the owner kept the device views and multiplayer, the drum machine, the ten homage skins and the Strudel extension in the plan."
+  - **It exercises the most of aui:**
+    - pads;
+    - a step sequencer, which puts the parameter-button painting gesture from the requirements (AUI-147, AUI-204) to real use;
+    - per-voice knobs (tune, decay, tone, level);
+    - an accent and swing section;
+    - a pattern display, which is a glass window on the instrument.
+  - **Its back panel is the best routing test:** a stereo out plus individual outputs per voice, MIDI in and sync in. Each voice can be patched to its own bus in the console view.
+  - **The compact view is obvious:** pattern number, play state, an output meter and a few macro knobs.
+  - **Drum voices are simpler to synthesise than a full polysynth**, which keeps the first plugin small.
+  - **Low trade-dress risk:** a generic step-sequencer drum machine is a whole category of instruments. It needs its own name, no model numbers and no copied panel colours.
+  - **A second view of the same model:** "pads" (an MPC-style grid) vs "steps" (a row of 16 step keys).
+- **Next: a synth.** It fits the owner's "instrument modulation details" (envelopes, LFOs, a mod matrix, as in the owner's synth-manager prototype) and mazika's M1.2 Jupiter-Xm editor.
+- **Instruments in other DAWs.** The earlier MIDI caveat was about MIDI *effects*. Instrument plugins with MIDI in are supported everywhere, so the CLAP → VST3/AU plan stands.
+- **Open question: how do instrument plugins and the skin sound filter fit together?** There seem to be two kinds of sound a pack can bring:
+  1. **The instrument itself** (the plugin *is* the drum machine or synth);
+  2. **A character filter** after a device (the earlier "custom sound as a filter on the output").
+  
+  Are both meant, or only the instrument?
