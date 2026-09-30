@@ -381,3 +381,47 @@ These are views of one connection graph in the engine, so a patch made in any of
   1. Does the pack *contain* the wrapper VST, or sit next to it and reference it by id? Referencing keeps packs text-only and lets one plugin serve many skins.
   2. Which device is the first pack for? The two-view DJ mixer, or a synth like the Jupiter-style one in the tapedeck prototype?
   3. Plugin format: VST3 only, or also AU/CLAP? This is mostly an audio-engine question, noted here for completeness.
+
+---
+
+## 2026-09-30 — Pack beside the VST; first device delegated; cross-DAW format
+
+### Owner's words
+
+> yeah the pack sit next to the VST meaning they can be updated separately.
+> you decide which device goes first
+> 3. the format should to be used on other computers with other daws as well
+
+### Notes
+
+**Settled: the pack sits next to the plugin, not inside it.** A pack references its plugin by id (and a version range). The two are versioned and updated separately. A pack with its plugin missing still loads, and the sound toggle shows "not installed". A plugin with no pack still runs with a generated neutral face.
+
+**First device: the tape machine.** The owner delegated this; they can overturn it. The pack would be a multitrack tape recorder with a tape-character plugin. Why it goes first:
+
+1. **It is the heart of the first consumer.** mazika's main view is the 8-track recorder (brief §1: "The main view should be an **8 track recorder**"). The tape view is already built (`src/views/tape`), with in-house parts such as `CassetteWindow`, `Reel` and `ReelGauge`. The owner's tapedeck prototype already has a tape panel (the TAPEHAUS 424 screenshot).
+2. **It is not blocked.** The DJ view, and so the DJ mixer, waits on mazika's native core: mazika@36bde22:docs/HANDOFF.md §5 "Nothing is built against a simulated core first: the owner answered \"wait for native\"."
+3. **Its sound is exactly the "filter after the device" the owner described.** A tape-character effect (saturation, wow and flutter, hiss, speed-dependent tone) runs right after the recorder in the chain.
+   - An effect is also the easiest plugin to make work in other DAWs on other computers: audio in, audio out, no MIDI.
+   - Hosts differ in their MIDI-effect support, as mazika's own brief notes for its recorder plugin.
+4. **It exercises almost every primitive and idea from this log:**
+   - Front controls: transport buttons, a segment counter, VU meters behind glass meter windows, and reels behind a cassette window. This is the "glass only where real gear has glass" rule.
+   - Settings: knobs (drive, bias, flutter), switches (tape speed, tape type) and 8 channel strips with faders and record-arm buttons.
+   - The generated back panel: 8 inputs, 8 outputs, sends.
+   - The compact view: VU pair, counter, transport.
+5. **Two views of one model come naturally.** A "cassette multitrack" view and a "reel-to-reel studio deck" view share one tape model. This proves the device-model-vs-views idea without waiting for the DJ mixer.
+6. **Low trade-dress risk.** Reels and VU meters are generic to the whole category, so a homage without logos is easy.
+   - The prototype's "424" matches a well-known cassette multitrack's model number, which the homage rule rules out. The first pack needs its own name.
+
+**Suggested order after it:**
+
+- **The DJ mixer**, once mazika's native core lands. It exercises two views, many buses and sends.
+- **A synth**, which fits mazika's planned M1.2 Jupiter-Xm synth manager.
+  - That view edits real hardware over MIDI and SysEx, so its pack is look-only and needs no emulation plugin. It is a good test of a pack without sound.
+  - Naming the connected product to refer to it is allowed (mazika brief §1a).
+
+**Alignment note, mazika DJ design §4.6.** mazika@36bde22:docs/research/dj-view-design.md §4.6 says "a skin may style a mode's controls, and may never pick a mode, add a control or hide one". The owner's "two device views" (Xone-style vs DJM-style) fit this as follows:
+
+- the *view/layout* is a user-chosen mode or setting, named for what it puts first, never after a product;
+- the *skin* only styles it.
+
+So a pack can *suggest* a view, but the user picks it. aui's pack format should keep "view" and "skin" as separate fields for this reason.
