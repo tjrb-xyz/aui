@@ -425,3 +425,47 @@ These are views of one connection graph in the engine, so a patch made in any of
 - the *skin* only styles it.
 
 So a pack can *suggest* a view, but the user picks it. aui's pack format should keep "view" and "skin" as separate fields for this reason.
+
+**Cross-DAW: "the format should to be used on other computers with other daws as well."** This applies to both halves: the plugin and the skin pack. These are research notes, checked 2026-09-30. Where a claim rests on secondary sources, that is marked. The plugin side is audio-engine's call.
+
+*Plugin formats (the sound half):*
+
+- **Proposal:** build one CLAP plugin, and use `clap-wrapper` (MIT) to produce VST3 and AUv2 from it, plus a standalone app. Covering the major formats this way means:
+  - **VST3** covers Live, Cubase, FL Studio, Studio One, REAPER and Bitwig. The VST3 SDK is MIT-licensed from 3.8.0 (2025-10-20), per KVR's news report (kvraudio.com, "Steinberg moves VST 3 SDK to MIT").
+  - **AU** is required for Logic Pro, GarageBand and MainStage, which do not load VST3.
+  - **CLAP** is native in Bitwig, REAPER, FL Studio 2024+ and partly Studio One 7. It is not supported in Cubase, Live, Logic or Pro Tools (secondary sources).
+  - **Linux:** LV2 (Ardour, Carla, REAPER Linux) can come later, if wanted.
+- **Pro Tools (AAX) is left out at first.** It needs Avid's developer programme, an NDA with PACE and iLok or cloud signing, which is the highest barrier of any format. `clap-wrapper` can produce AAX later if someone takes on the signing.
+- **The plugin's UI is aui in a web view:** WKWebView (macOS), WebView2 (Windows), WebKitGTK (Linux).
+  - The requirements already guard for older WKWebView hosts (AUI-073). Known web-view pitfalls for aui and the engine to design for:
+    - **WebView2 data folders:** each plugin instance needs its own, or later instances render blank.
+    - **Keyboard focus:** the host and the web view compete for keys, and keyboard shortcuts can fire twice.
+    - **Blank editors on reopen in some hosts.**
+    - **WebView2 runtime:** missing on some Windows 10 machines, so ship its installer.
+    - **WebKitGTK:** must be present on Linux.
+  - Add an aui acceptance test: the kit runs inside each host web view, with keyboard focus behaving correctly.
+- **Framework licences affect the licence choice (Q-01):**
+  - JUCE 8 is AGPLv3 or commercial;
+  - iPlug2 is zlib-like, DPF is ISC, choc (a single-header web view) is ISC;
+  - nih-plug's VST3 export uses GPLv3 bindings (unconfirmed whether that has changed).
+  
+  A plugin that bundles aui inherits aui's licence terms, so the licence decision (REQUIREMENTS Q-01) should consider plugins sold or shared for other DAWs.
+
+*Skin packs (the look half):*
+
+- **A pack must be portable:** one self-contained folder (or a zip of it) with only relative paths, text files plus images, identical on macOS, Windows and Linux.
+- **Packs are found by id, not path.** A plugin's saved state (the host's project) stores the pack's id, version and content hash, never an absolute path. This lets a project opened on another computer find the same pack, or show "pack missing" and fall back to the neutral face.
+- **Per-user pack folders:**
+  - macOS: `~/Library/Application Support/<vendor>/packs`
+  - Windows: `%APPDATA%\<vendor>\packs`
+  - Linux: `$XDG_DATA_HOME/<vendor>/packs`
+  
+  The mazika app and the plugins on the same computer can share this folder.
+- **Presets** travel through each format's own mechanism (VST3 `.vstpreset`, AU `.aupreset`, CLAP state). The pack only references them.
+
+**Open questions put to the owner**
+
+1. Is the tape machine as the first pack OK?
+2. Pro Tools: needed early, or fine to add later?
+3. Linux: needed for the plugins, or macOS and Windows first?
+4. Name for the first pack. It needs its own name: not TAPEHAUS 424, and no model numbers.
