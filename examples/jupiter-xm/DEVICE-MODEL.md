@@ -1,8 +1,9 @@
 # Device model: Roland JUPITER-Xm editor
 
-**Status:** draft 2.1, 2026-10-01. Design only; nothing is built.
+**Status:** draft 2.2, 2026-10-01. Design only; nothing is built.
 
 - Draft 2 was reviewed against Roland's MIDI Implementation, the research, mazika's spec and the owner's decisions. Draft 2.1 applies the 72 confirmed findings.
+- Draft 2.2 records the owner's answers to four open questions (§11): recall confirmation, engines by reference, mazika's browser core first, and the first pack as an unbranded homage.
 - The owner's decisions are quoted in full in `README.md`.
 
 **What this is:**
@@ -122,7 +123,7 @@ Inside mazika this is M1.2, "the Jupiter-Xm synth manager" (mazika@36bde22:docs/
 
 - The analog, JUPITER-X, ZEN-Core and RD Piano engines are fully readable and writable from the MI.
 - The drum kits, vocoder and expansions are not documented. They are captured by reference (bank and program) and restored with their Scene-level settings.
-- Going further means measuring undocumented areas on the owner's synth (§10), never copying Roland's editor files.
+- **Settled by the owner (2026-10-01): by reference is enough for now.** Measuring the undocumented areas (§10 item 10) is deferred. If it happens later, it means measuring on the owner's synth, never copying Roland's editor files.
 
 **Engine detection per part:**
 
@@ -278,6 +279,7 @@ The owner's rule (2026-10-01): **"The web view should be separate from the main 
 - **Which process is the main side:**
   - **mazika:** the core that owns the synth.
     - **Today** that is mazika's browser core page, which uses Web MIDI with the permission granted in the core's own window. mazika's rule is "**A client never calls `requestMIDIAccess`.**" (ux-spec §6.6.2).
+    - **Settled by the owner (2026-10-01): the first version starts there.** It moves to mazikad later without changing the views.
     - **Later** it is the native daemon mazikad, which has no MIDI design yet (§9).
   - **A DAW plugin:** the plugin's native, non-audio thread, which opens the synth's USB MIDI port itself (§5). It never uses the audio thread, the host's MIDI path or the editor's web view.
 - **One specification, two builds.** There is one protocol, one pacing and reply-matching design, and one parameter table generated from the MI. They are implemented once, as a Rust crate with a transport and storage adapter, built two ways:
@@ -511,11 +513,11 @@ These come to 7 blocks and about 0.37 KB. They affect every Scene, so they are s
 
 **Size of the job:** about 76 write messages for the Scene (31 blocks plus 45 pattern packets), plus up to about 132 for four ZEN-Core Tones. With about 20 ms between packets, a tone-load wait per part and the read-back, a full recall is on the order of 10 seconds (UNVERIFIED; §10 item 9). It runs on the main side as one exclusive transaction (§3.3), so the UI stays live and shows progress.
 
-### 4.5 Confirming a recall (open)
+### 4.5 Confirming a recall
 
 mazika confirms every send of a sound ("… Send · Cancel", ux-spec §6.4.6), in the client where the action was chosen.
 
-**Default here: follow mazika.** A recall asks once, saying what it replaces:
+**Settled by the owner (2026-10-01): ask every time, as mazika does.** A recall asks once, saying what it replaces:
 
 - *"Replace the synth's current sound with 'Night Brass'? Unsaved edits on the synth will be lost. Send · Cancel"*;
 - "Save current first" is offered when the edit buffer has unsaved changes.
@@ -525,12 +527,10 @@ The same rule applies to:
 - stepping through sounds with `Shift+,` / `Shift+.` (mazika §6.4.6);
 - "Try", which sends a sound from the library without saving anything (§6.7).
 
-**The plugin exception (proposed):** in a DAW, "recall on project load" is a per-project option (§5.2), and choosing it is the consent.
+**The plugin exception (settled with the same answer):** in a DAW, "recall on project load" is a per-project option (§5.2), and choosing it is the consent.
 
 - The recall then runs without a prompt, even with the editor closed. An open editor shows progress with Cancel.
-- If the owner wants a prompt there too, the recall waits and the compact tile shows "Restore the synth for this project? Restore · Not now".
-
-Both cases are one owner decision (§11 question 1).
+- A person who wants a prompt there too picks "manual" or "on first play" (§5.2).
 
 ### 4.6 Where snapshots live
 
@@ -610,7 +610,7 @@ Both cases are one owner decision (§11 question 1).
 **mazika and a DAW at once:**
 
 - When a mazika core holds the synth, the plugin joins mazika's session as a paired client, the way mazika's Max for Live device already does, instead of opening the port.
-- mazika's browser core cannot take an OS lock, so until mazikad exists a collision between it and a plugin cannot be prevented, only detected (UNVERIFIED; §11 question 3).
+- mazika's browser core cannot take an OS lock, so until mazikad exists a collision between it and a plugin cannot be prevented, only detected (UNVERIFIED). The owner accepted this for the first version (§11).
 
 **Programs outside any of this** (a DAW track, Roland's editor) cannot be excluded on multi-client ports. The editor detects them heuristically (DT1 replies it did not request) and shows "Another program is talking to the synth".
 
@@ -756,7 +756,7 @@ The editor's setup notes tell the person to turn off MIDI thru, not only SysEx t
   - **Either way,** mazika brief §1a applies to mazika's own skins: never "others' logos, panel graphics or trade dress".
 - **Replica or homage:**
   - The owner put replica homages in external, editable packs, never in the app (IDEAS 2026-09-30), and said the team makes the first pack.
-  - Whether that first-party external pack is a replica or an unbranded homage is the owner's choice. The default is an unbranded homage with its own name (§11).
+  - **Settled by the owner (2026-10-01): the first-party pack is an unbranded homage with its own name.** It captures the panel's layout, colours and feel, with no Roland logos, product names or copied panel graphics.
   - Naming "JUPITER-Xm" to say which synth the editor drives is fine (mazika brief §1a).
 - **No plugin sound.** The sound is the real synth.
   - The later synth controller device (README, roadmap) can reuse the same faces and the same descriptor shape.
@@ -891,22 +891,14 @@ These belong on mazika's M1.2 hardware checklist ("Jupiter-Xm: its checklist com
 - all engines, with the analog models first;
 - runs in mazika and potentially other DAWs;
 - firmware 3.02, with 3.03 planned;
-- MIDI on the main side, the web view separate.
+- MIDI on the main side, the web view separate;
+- **recall asks every time** ("Send · Cancel"), as mazika does. In a DAW, "recall on project load" runs without a prompt, because choosing that option is the consent (§4.5);
+- **drum kits, the vocoder and the expansions by reference are enough for now.** Measuring their hidden areas is deferred (§2.2);
+- **mazika's browser core first.** The Jupiter core starts in mazika's browser core page with Web MIDI and moves to mazikad later (§3.1, §5.3);
+- **the first-party pack is an unbranded homage** with its own name (§7).
 
 **Still open:**
 
-1. **Recall confirmation:**
-   - follow mazika and ask "Send · Cancel" on every recall, stepping and "Try" (the default);
-   - or recall without asking, since only the edit buffer changes.
-   
-   And in a DAW: should "recall on project load" run without a prompt (the default; choosing the option is the consent), or wait for "Restore · Not now"?
-2. **Engines the public SysEx does not cover:** drum kits, the vocoder and the expansions are saved by reference.
-   - Is that enough for now, or should measuring the undocumented areas on your synth be planned?
-   - Do you own JD-800 or Vocal Designer?
-   - Does your synth show any JUNO-60 tones?
-3. **mazika before native MIDI:** until mazikad has native MIDI, the Jupiter core in mazika runs in mazika's browser core page (the owning core, never a client view).
-   - Is that acceptable for the first version?
-   - While it lasts, mazika and a DAW plugin cannot lock each other out, only detect each other (§5.3).
-4. **Snapshot files:** one JSON file per Scene with raw blocks plus readable values, shared by mazika and the plugin. Is that right, or do you also want Roland-compatible files later?
-5. **The first-party pack:** a replica, or an unbranded homage with its own name (the default)? It lives outside the app either way.
-6. **Pro Tools (AAX):** left out at first by default (signing barrier). Do you need it early?
+1. **Snapshot files:** one JSON file per Scene with raw blocks plus readable values, shared by mazika and the plugin. Is that right, or do you also want Roland-compatible files later?
+2. **Pro Tools (AAX):** left out at first by default (signing barrier). Do you need it early?
+3. **Your synth:** do you own JD-800 or Vocal Designer, and does it show any JUNO-60 tones? This only matters once the deferred measuring happens.

@@ -44,6 +44,13 @@ An editor for the owner's Roland JUPITER-Xm. It drives the real synth over USB M
 
 > I have version 3.02 but planning to upgrade to 3.03
 
+**2026-10-01, four open questions (the owner picked from offered options; the chosen option is quoted):**
+
+- Reload confirmation: "Ask every time (Recommended)".
+- Drum kits, vocoder and expansions saved by reference: "Enough for now (Recommended)".
+- mazika before native MIDI: "Yes, start there (Recommended)".
+- The first skin pack: "Unbranded homage (Recommended)".
+
 The earlier ideas behind this example are logged with dates in `aui-docs/IDEAS.md` on the `owner-ideas` branch:
 - the synth as the first pack;
 - the pack sitting beside its plugin;
@@ -99,15 +106,20 @@ The owner's rule: **the web view is separate from the main thread, and the main 
 
 ## Open questions
 
-The full list, with defaults, is in DEVICE-MODEL §11. It also covers the first-party pack (replica or homage) and Pro Tools.
+The full list is in DEVICE-MODEL §11.
 
-1. **Firmware: answered.** The owner's synth runs 3.02, with an upgrade to 3.03 planned.
-   - Roland's newest MIDI Implementation (v1.06) dates from 3.00. The research found no parameter or SysEx changes in 3.01–3.03 (DEVICE-MODEL §2.6).
-   - The editor records the identity reply and the confirmed version in every snapshot.
-   - **Before upgrading,** take Roland's own backup as well (and a snapshot backup once the editor exists).
-2. **Recall confirmation:** ask "Send · Cancel" on every recall, as mazika does (the default), or recall without asking?
-   - In a DAW, "recall on project load" runs without a prompt by default, since choosing the option is the consent. Should it ask instead (DEVICE-MODEL §4.5)?
-3. **Engines the public SysEx does not cover:** drum kits, the vocoder and the JD-800 / Vocal Designer expansions are saved by reference for now.
-   - Does the owner have either expansion?
-   - Does the synth show JUNO-60 tones? Roland's document does not list a JUNO-60 model for this synth.
-4. **mazika before native MIDI:** is it acceptable for the editor's main side to run in mazika's browser core page until mazikad has native MIDI?
+**Answered:**
+
+- **Firmware:** 3.02, with 3.03 planned.
+  - Roland's newest MIDI Implementation (v1.06) dates from 3.00, and the research found no reported parameter or SysEx changes in 3.01–3.03 (DEVICE-MODEL §2.6).
+  - **Before upgrading,** take Roland's own backup as well.
+- **Recall:** asks "Send · Cancel" every time. In a DAW, "recall on project load" is its own consent (DEVICE-MODEL §4.5).
+- **Drum kits, vocoder, expansions:** saved by reference for now.
+- **mazika:** starts in mazika's browser core, moves to mazikad later.
+- **First pack:** an unbranded homage with its own name.
+
+**Still open:**
+
+1. **Snapshot files:** one JSON file per Scene (raw blocks plus readable values), or also Roland-compatible files later?
+2. **Pro Tools (AAX):** left out at first by default. Needed early?
+3. **Expansions and JUNO-60** on the owner's synth: only matters once the deferred measuring happens.
