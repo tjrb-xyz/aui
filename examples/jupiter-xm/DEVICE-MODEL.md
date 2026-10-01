@@ -368,7 +368,10 @@ One screen per engine kind:
 
 1. The full address map: the top-level areas and each part's temporary-tone base. Read it from the MIDI Implementation PDF (v3.x) on a network that can reach static.roland.com, then check it on the synth.
 2. The JUPITER-X model (firmware 3.0) block layout, which the decoded editor data predates.
-3. The exact latest firmware version (the owner runs "the latest") and its changes after 3.0. Research found nothing after 3.x so far.
+3. **Firmware: the owner's synth runs 3.02, with 3.03 planned.**
+   - Check the profile against 3.02 first, then 3.03.
+   - Record what 3.03 changes in parameters, engines or SysEx.
+   - Confirm that a snapshot captured on 3.02 recalls exactly on 3.03 (§4: a version mismatch warns but still recalls, then reads back and compares).
 4. How installed expansions (JD-800, Vocal Designer) are reported.
 5. Whether "Edit Tx" sends every panel move, for every engine and edit mode.
 6. The nibble-value quirk on received messages.
@@ -384,11 +387,10 @@ These belong on mazika's M1.2 hardware checklist ("Jupiter-Xm: its checklist com
 - **Which annoyance first:** the whole Scene, editing its parts, and saving to the computer.
 - **Engines:** all of them, the analog models first.
 - **Where it runs:** in mazika, and potentially as a plugin in other DAWs.
-- **Firmware:** the latest.
+- **Firmware:** 3.02 now, 3.03 planned.
 - **Threads:** MIDI on the main side, the web view separate.
 
 **Still open:**
 
 1. Do you own the JD-800 or Vocal Designer expansions?
-2. The exact firmware version shown on your synth (System › Info, or the boot screen). This lets the profile be checked against the right MIDI Implementation.
-3. Snapshot files: is one JSON text file per Scene (raw blocks plus readable values) right, or do you also want Roland-compatible exports?
+2. Snapshot files: is one JSON text file per Scene (raw blocks plus readable values) right, or do you also want Roland-compatible exports?

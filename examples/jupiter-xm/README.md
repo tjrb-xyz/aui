@@ -39,6 +39,10 @@ An editor for the owner's Roland JUPITER-Xm. It drives the real synth over USB M
 
 > this should be its own PR. call it “jupiter-xm” and place under an example. The web view should be separate from the main thread which should handle midi. the sounds now come off the jupiter xm, and later on once dsper is wired and works properly we can build a synth controller device which will contain jupiter xm as model. let’s keep all of these notes in the jupiter-xm PR for now. Later on we can create a synth-modeller repo once we have the necessary UI elements here.
 
+**2026-10-01, firmware:**
+
+> I have version 3.02 but planning to upgrade to 3.03
+
 The earlier ideas behind this example are logged with dates in `aui-docs/IDEAS.md` on the `owner-ideas` branch:
 - the synth as the first pack;
 - the pack sitting beside its plugin;
@@ -87,6 +91,9 @@ The owner's rule: **the web view is separate from the main thread, and the main 
 
 ## Open questions
 
-1. **Firmware:** which exact version is "the latest" on the owner's synth? The research found nothing after 3.x; a check is under way. The editor will read the version from the synth and record it in every snapshot.
+1. **Firmware: answered.** The owner's synth runs 3.02, with an upgrade to 3.03 planned.
+   - The profile targets 3.02 first, then 3.03 once the owner upgrades. What 3.03 changes is being checked.
+   - The editor reads the version from the synth and records it in every snapshot.
+   - **Before upgrading,** take a full snapshot backup (DEVICE-MODEL §4) as well as Roland's own backup.
 2. **Expansions:** does the owner have the JD-800 or Vocal Designer expansions?
 3. **Plugin mode:** how a plugin reaches the synth's SysEx (through the host, or by opening the port itself), and sharing the MIDI port with the DAW on Windows. A check is under way.
