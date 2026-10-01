@@ -601,3 +601,28 @@ So a pack can *suggest* a view, but the user picks it. aui's pack format should 
   - Feasibility questions: how a plugin reaches the synth's SysEx (through the host, or by opening the MIDI port itself) and port sharing with the DAW. Researched in the device model's next revision.
 - **Firmware: "the latest".** The research so far found nothing after 3.x. The exact latest version and its changes need checking; the version is also recorded in every snapshot file.
 - **Next:** device model draft 2 in `aui-docs/devices/jupiter-xm.md`, reworked around the snapshot file, capture and recall, and the plugin mode.
+
+---
+
+## 2026-10-01 — Jupiter-Xm gets its own PR; MIDI off the web view; roadmap
+
+### Owner's words
+
+> this should be its own PR. call it “jupiter-xm” and place under an example. The web view should be separate from the main thread which should handle midi. the sounds now come off the jupiter xm, and later on once dsper is wired and works properly we can build a synth controller device which will contain jupiter xm as model. let’s keep all of these notes in the jupiter-xm PR for now. Later on we can create a synth-modeller repo once we have the necessary UI elements here.
+
+### Notes
+
+- **Where the notes live:** all Jupiter-Xm notes move to their own branch and PR, `jupiter-xm`, under `examples/jupiter-xm/`:
+  - `README.md`: purpose, the owner's decisions verbatim, the process model, the roadmap;
+  - `DEVICE-MODEL.md`: the device model, moved from `aui-docs/devices/jupiter-xm.md`, which is removed from this branch.
+  
+  This log keeps only the owner's words and a pointer.
+- **Process model, settled:**
+  - The main (native) side owns MIDI: port, SysEx, pacing, device state, snapshot files.
+  - The web view only renders aui and exchanges messages with the main side.
+  - In a plugin, the main side is a non-audio thread.
+- **Sound, settled:** for now the sound comes off the Jupiter-Xm itself; the editor makes none.
+- **Roadmap, settled:**
+  1. now: a hardware editor;
+  2. later: a synth controller device, with the Jupiter-Xm as one model, once dsper is wired and works;
+  3. later: a `synth-modeller` repository, once aui has the UI elements this needs.
