@@ -546,3 +546,30 @@ So a pack can *suggest* a view, but the user picks it. aui's pack format should 
   1. What kind of synth first: a polyphonic analog-style synth (pads, brass), a mono bass synth, or one plugin with both modes? The prototype's parts suggest all three.
   2. Should the same pack also skin the hardware synth editor (mazika M1.2)?
   3. Still open: a character filter after a device as well as instruments, or instruments only?
+
+---
+
+## 2026-10-01 — Model the first synth on the Jupiter-Xm
+
+### Owner's words
+
+> Yes, I want you to model one for the Juliter XM. As It’s current editor and tooling is very annoying.
+
+### Notes
+
+- **This answers two open questions:**
+  - The first synth pack is modelled on a real synth, the owner's Roland Jupiter-Xm.
+  - It covers the hardware editor ("Yes": the same pack skins the editor that drives the real synth).
+  - "Juliter XM" reads as a typo for Jupiter-Xm.
+- **Motivation, in the owner's words:** the synth's "current editor and tooling is very annoying". The model should aim at a better editor than the vendor's.
+- **Fits mazika's plan:**
+  - M1.2 ("the Jupiter-Xm synth manager. Edit buffer only; **never write the synth's memory without the "Save to synth…" confirmation**", mazika@36bde22:docs/HANDOFF.md §4);
+  - the synth-manager prototype screenshot;
+  - mazika's ux-spec §6.4 (sound-design screen) and §6.6 (synth manager).
+- **Naming.** Naming the connected product to refer to it is allowed (mazika brief §1a). Roland's logos and panel graphics stay out of aui and mazika. A Jupiter-style look lives only in the external pack.
+- **Deliverable:** a device model, drafted in `aui-docs/devices/jupiter-xm.md`, covering:
+  - the parameter tree;
+  - parts and engines;
+  - the views (front, performance, compact, back);
+  - how edits reach the synth;
+  - what the pack styles.
