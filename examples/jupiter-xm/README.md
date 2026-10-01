@@ -4,6 +4,13 @@ An editor for the owner's Roland JUPITER-Xm. It drives the real synth over USB M
 
 **Status:** design notes only. Nothing here is built.
 
+**Outsourced (2026-10-01).** The Jupiter-Xm controller is outsourced to its own repository, **tjrb-xyz/synthctrlr**, which has its own session and builds on aui. The owner's words:
+
+> I’ve outsourced the jupiter xm controller into a new repo, which has to have a new session and use “aui”. The new name is “tjrb-xyz/synthctrlr”. Can you open a new session as well as pose the requirements you have to “aui” in the documents you’ve been writing thus far.
+
+- synthctrlr's session takes these notes as its starting point. synthctrlr replaces the "synth-modeller" repository named in the roadmap below.
+- `AUI-REQUIREMENTS.md` lists what synthctrlr needs from aui.
+
 **Frozen (2026-10-01).** Work on this example pauses until the owner is at their computer with the synth. That covers the hardware checks (DEVICE-MODEL §10), the probe tool and any build. The owner's words:
 
 > I am not running on Mac yet so let’s keep these frozen for now until when I am on my computer
@@ -15,6 +22,7 @@ An editor for the owner's Roland JUPITER-Xm. It drives the real synth over USB M
 | File | What it holds |
 |---|---|
 | `README.md` | Purpose, the owner's decisions verbatim, the process model, the roadmap, open questions |
+| `AUI-REQUIREMENTS.md` | What synthctrlr needs from aui: kit contracts, existing and new parts, theming and packs, gates |
 | `DEVICE-MODEL.md` | The device model (draft 2): the synth as seen over SysEx, the address map, Scene snapshots, plugin mode, views, the pack, what mazika must change, checks on the synth |
 
 ---
@@ -110,7 +118,7 @@ The owner's rule: **the web view is separate from the main thread, and the main 
      - or through its analog outputs into an interface (DEVICE-MODEL §6.6).
    - aui supplies the views. The device model and the snapshot format live in this example.
 2. **Later: a synth controller device.** Once dsper (tjrb-xyz/dsper) is wired and works properly, build a generic synth controller device that holds *models*; the Jupiter-Xm becomes its first model.
-3. **Later: a `synth-modeller` repository.** It is created once aui has the UI elements this example needs (DEVICE-MODEL §8). The notes here move there then.
+3. **A separate repository: `tjrb-xyz/synthctrlr`** (named "synth-modeller" at first; created 2026-10-01). It is created once aui has the UI elements this example needs (DEVICE-MODEL §8). The notes here move there then.
 
 ## Open questions
 
