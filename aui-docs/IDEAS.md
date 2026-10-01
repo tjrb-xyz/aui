@@ -573,3 +573,31 @@ So a pack can *suggest* a view, but the user picks it. aui's pack format should 
   - the views (front, performance, compact, back);
   - how edits reach the synth;
   - what the pack styles.
+
+---
+
+## 2026-10-01 — Jupiter-Xm editor: priorities, engines, where it runs
+
+### Owner's words
+
+> 1. It’s mainly about seeing the whole scene, editing its parts, and saving it, not necessarily on synth memory but computer memory and being able to reload the save with all the parameters and parts we’ve edited.
+> 2. All engines are used but the analog models are the primary models to support here yet a complete support is desired
+> 3. would love if this runs as part of mazika and potentially other daws as well
+> 4. My jupiter is running the latest firmware
+
+### Notes
+
+- **Priority, settled:**
+  1. see the whole Scene;
+  2. edit its parts;
+  3. save to the *computer* and reload with every parameter of every part.
+
+  Writing to the synth's own memory is secondary.
+  - The core feature is a **Scene snapshot file**: a complete capture of the temporary Scene and all five parts' tones, effects and arpeggio/step data.
+  - Reloading sends it back into the synth's edit buffer. That does not touch the synth's memory, so it needs no "Save to synth…" confirmation.
+- **Engines, settled:** the analog models come first (JP-8, JX-8P, JUNO-106, SH-101, JUNO-60, JUPITER-X model), and complete support for every engine is the goal. The snapshot must capture every engine from day one, even before each engine has its own editing panel, so nothing is lost on reload.
+- **Where it runs, settled:** inside mazika, and potentially as a plugin in other DAWs.
+  - In a DAW, the project can hold the Scene snapshot in the plugin's saved state. Reopening the project then restores the synth ("total recall"), which serves the save/reload goal directly.
+  - Feasibility questions: how a plugin reaches the synth's SysEx (through the host, or by opening the MIDI port itself) and port sharing with the DAW. Researched in the device model's next revision.
+- **Firmware: "the latest".** The research so far found nothing after 3.x. The exact latest version and its changes need checking; the version is also recorded in every snapshot file.
+- **Next:** device model draft 2 in `aui-docs/devices/jupiter-xm.md`, reworked around the snapshot file, capture and recall, and the plugin mode.
