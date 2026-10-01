@@ -501,3 +501,48 @@ So a pack can *suggest* a view, but the user picks it. aui's pack format should 
   2. **A character filter** after a device (the earlier "custom sound as a filter on the output").
   
   Are both meant, or only the instrument?
+
+---
+
+## 2026-10-01 — The synth goes first
+
+### Owner's words
+
+> I think a sync is a better example here
+
+(interrupted by the owner, then:)
+
+> i think that synth is a better choice for us for now
+
+### Notes
+
+- **Settled by the owner: the first pack is a synth** (instrument plugin + its pack). This replaces the drum machine choice above; the drum machine moves to second.
+  - "sync" in the first message reads as a typo for "synth", which the second message confirms.
+- **Why it fits:**
+  - **It matches the owner's "instrument modulation details"** (envelopes, LFOs, mod routing).
+  - **It matches the owner's synth-manager prototype** (`ideas/2026-09-29/tapedeck-synth.webp`): oscillator, filter, amp envelope and effects sections with knobs, ADSR faders and keys.
+  - **It matches mazika's M1.2,** the Jupiter-Xm synth manager.
+- **What the synth pack exercises:**
+  - **The front panel:**
+    - knobs, faders, switches and segmented selectors (wave shape, octave);
+    - keys;
+    - pitch and mod wheels;
+    - a glass display window (patch name, value readout);
+    - LEDs.
+  - **Modulation needs new primitives:**
+    - an envelope display (an ADSR curve drawn from the parameter values);
+    - an LFO rate and shape indicator;
+    - a mod matrix (source → destination → amount).
+    - Possibly also modulation rings on knobs showing the range a modulator moves them through.
+  - **The back panel:** stereo out, MIDI in, possibly a CV/gate or external audio in for filter processing, and sync.
+  - **The compact view:** patch name, an output meter and 4 macro knobs.
+  - **Two views of one model:** a "full panel" view of every section, and a "performance" view with macros, keys and wheels. The second suits phones and tablets.
+- **One look, two kinds of device.** The same synth skin could face both:
+  - the *software* synth (the instrument plugin);
+  - a *hardware* synth editor (mazika M1.2, editing a real synth over MIDI and SysEx, with no plugin needed).
+  
+  That is a cheap way to show a pack is look only.
+- **Open questions put to the owner**
+  1. What kind of synth first: a polyphonic analog-style synth (pads, brass), a mono bass synth, or one plugin with both modes? The prototype's parts suggest all three.
+  2. Should the same pack also skin the hardware synth editor (mazika M1.2)?
+  3. Still open: a character filter after a device as well as instruments, or instruments only?
