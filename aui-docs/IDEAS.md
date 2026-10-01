@@ -659,4 +659,4 @@ So a pack can *suggest* a view, but the user picks it. aui's pack format should 
   - homage packs outside the app, the first one an unbranded homage;
   - packs beside plugins;
   - the MIDI main side separate from the web view.
-- **Open:** whether PR #1 stays open as aui's record of the Jupiter design, or closes once synthctrlr has imported the notes.
+- **Settled (owner: "you should close it once the notes are brought over"):** synthctrlr imported the notes (branch `docs-from-aui`, commit `504486d`), and PR #1 is closed. The `jupiter-xm` branch stays as the record.
