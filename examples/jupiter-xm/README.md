@@ -17,7 +17,7 @@ An editor for the owner's Roland JUPITER-Xm. It drives the real synth over USB M
 
 **To resume:**
 - run the §10 checks on the owner's Jupiter-Xm (3.02, then 3.03);
-- answer the last two open questions (snapshot file format, Pro Tools). This folder holds every note about the Jupiter-Xm editor until a separate `synth-modeller` repository exists (see the roadmap below).
+- answer the last two open questions (snapshot file format, Pro Tools).
 
 | File | What it holds |
 |---|---|
@@ -118,7 +118,7 @@ The owner's rule: **the web view is separate from the main thread, and the main 
      - or through its analog outputs into an interface (DEVICE-MODEL §6.6).
    - aui supplies the views. The device model and the snapshot format live in this example.
 2. **Later: a synth controller device.** Once dsper (tjrb-xyz/dsper) is wired and works properly, build a generic synth controller device that holds *models*; the Jupiter-Xm becomes its first model.
-3. **A separate repository: `tjrb-xyz/synthctrlr`** (named "synth-modeller" at first; created 2026-10-01). It is created once aui has the UI elements this example needs (DEVICE-MODEL §8). The notes here move there then.
+3. **A separate repository: `tjrb-xyz/synthctrlr`** (named "synth-modeller" at first). The owner created it on 2026-10-01, before aui has the UI elements this example needs (DEVICE-MODEL §8; `AUI-REQUIREMENTS.md`). synthctrlr's session builds on these notes.
 
 ## Open questions
 
