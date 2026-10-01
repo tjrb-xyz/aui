@@ -2,7 +2,15 @@
 
 An editor for the owner's Roland JUPITER-Xm. It drives the real synth over USB MIDI and SysEx, and its UI is built with aui.
 
-**Status:** design notes only. Nothing here is built. This folder holds every note about the Jupiter-Xm editor until a separate `synth-modeller` repository exists (see the roadmap below).
+**Status:** design notes only. Nothing here is built.
+
+**Frozen (2026-10-01).** Work on this example pauses until the owner is at their computer with the synth. That covers the hardware checks (DEVICE-MODEL §10), the probe tool and any build. The owner's words:
+
+> I am not running on Mac yet so let’s keep these frozen for now until when I am on my computer
+
+**To resume:**
+- run the §10 checks on the owner's Jupiter-Xm (3.02, then 3.03);
+- answer the last two open questions (snapshot file format, Pro Tools). This folder holds every note about the Jupiter-Xm editor until a separate `synth-modeller` repository exists (see the roadmap below).
 
 | File | What it holds |
 |---|---|
