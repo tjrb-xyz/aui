@@ -626,3 +626,37 @@ So a pack can *suggest* a view, but the user picks it. aui's pack format should 
   1. now: a hardware editor;
   2. later: a synth controller device, with the Jupiter-Xm as one model, once dsper is wired and works;
   3. later: a `synth-modeller` repository, once aui has the UI elements this needs.
+
+---
+
+## 2026-10-01 — The Jupiter-Xm controller moves to tjrb-xyz/synthctrlr
+
+### Owner's words
+
+> I’ve outsourced the jupiter xm controller into a new repo, which has to have a new session and use “aui”. The new name is “tjrb-xyz/synthctrlr”. Can you open a new session as well as pose the requirements you have to “aui” in the documents you’ve been writing thus far.
+
+### Notes
+
+- **New consumer of aui: synthctrlr** (tjrb-xyz/synthctrlr), with its own session. It replaces the "synth-modeller" repository named in the jupiter-xm roadmap. Its first model is the Jupiter-Xm editor designed in PR #1 (`examples/jupiter-xm/`, branch `jupiter-xm`).
+- **What synthctrlr needs from aui** is written down in `examples/jupiter-xm/AUI-REQUIREMENTS.md` (branch `jupiter-xm`). In short:
+  - **Kit contracts:**
+    - presentation only (AUI-115);
+    - declared-stable exports (AUI-122);
+    - runs in plugin web views (AUI-073, AUI-040, AUI-179);
+    - loads nothing from elsewhere (AUI-162, AUI-163);
+    - a parameter model a device descriptor maps into (AUI-265);
+    - control states with app-supplied words;
+    - fast external updates (AUI-135, AUI-286).
+  - **New parts:**
+    - Scene overview: part strip, key-range bar;
+    - part editor: section panel layout, multi-stage envelope, LFO indicator, display window;
+    - save and reload: progress-and-verify panel, librarian list with diff;
+    - later: step-pattern row, signal-flow diagram, pad grid, badges, compact tile and back panel.
+  - **Theming and packs:** the public skin-pack format, material tokens (`glass.*`, `panel.*`) and the headless pack API, all logged above (2026-09-29, 2026-09-30).
+  - **Gates:** aui's licence (Q-01), since synthctrlr's plugins bundle aui; and aui's published name (Q-02).
+- **The ideas above that synthctrlr inherits:**
+  - glass enclosure vs analog instrument;
+  - homage packs outside the app, the first one an unbranded homage;
+  - packs beside plugins;
+  - the MIDI main side separate from the web view.
+- **Open:** whether PR #1 stays open as aui's record of the Jupiter design, or closes once synthctrlr has imported the notes.
